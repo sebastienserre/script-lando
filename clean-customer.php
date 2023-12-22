@@ -1,8 +1,10 @@
 <?php
 $dir = '/media/projets/polylang/customers/sites';
 $listdir = scandir( $dir );
+
+error_log(PHP_EOL . date( 'd-m-Y-H-i-s'). PHP_EOL, 3,  $dir . '/debug.log');
+remove_old_images( 30, $dir );
 if (! empty($listdir) ){
-	error_log(PHP_EOL . date( 'd-m-Y-H-i-s'). PHP_EOL, 3,  $dir . '/debug.log');
 
 	foreach ( $listdir as $key => $folder_name ){
 		$path = $dir . '/' . $folder_name;
@@ -54,4 +56,12 @@ function rrmdir($dir) {
 		}
 		rmdir($dir);
 	}
+}
+
+function remove_old_images( $days = 30, $dir ){
+	$timestamp = time() - $days * 86400;
+	var_dump( $timestamp );
+	exec( 'docker image prune -af --filter until=' . $timestamp);
+	error_log( 'Docker image prune performed' . PHP_EOL, 3,  $dir . '/debug.log');
+
 }
