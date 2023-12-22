@@ -6,4 +6,4 @@
 3. KEEP_ALIVE is an array of folder you do not want to destroy
 
 ## How to use ?
-`php clean-customer.php` command will launch it
+`php clean-lando.php` command will launch it
