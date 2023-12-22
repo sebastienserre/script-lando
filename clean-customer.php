@@ -1,20 +1,17 @@
 <?php
-$dir = '/media/projets/polylang/customers/sites';
-$listdir = scandir( $dir );
+require __DIR__ . '/conf.php';
+$listdir = scandir( DIR );
 
-error_log(PHP_EOL . date( 'd-m-Y-H-i-s'). PHP_EOL, 3,  $dir . '/debug.log');
-remove_old_images( 30, $dir );
+error_log(PHP_EOL . date( 'd-m-Y-H-i-s'). PHP_EOL, 3,  DIR . '/debug.log');
+remove_old_images( 30, DIR );
 if (! empty($listdir) ){
 
 	foreach ( $listdir as $key => $folder_name ){
-		$path = $dir . '/' . $folder_name;
+		$path = DIR . '/' . $folder_name;
 		$do_not_destroy = array(
-			'.',
-			'..',
-			'7bioch',
-			'debug.log',
+
 		);
-		if ( in_array( $folder_name, $do_not_destroy ) ){
+		if ( in_array( $folder_name, KEEP_ALIVE ) ){
 			continue;
 		}
 		$fileinfo = stat( $path );
@@ -29,39 +26,39 @@ if (! empty($listdir) ){
 				exec( 'lando destroy -y' );
 				rrmdir( $path );
 				echo "destroyed";
-				error_log($folder_name . ' has been destroyed'. PHP_EOL, 3,  $dir . '/debug.log');
+				error_log($folder_name . ' has been destroyed'. PHP_EOL, 3,  DIR . '/debug.log');
 
 			} else {
 				echo $folder_name . ' is not a lando' . PHP_EOL;
-				error_log($folder_name . ' is not a lando'. PHP_EOL, 3,  $dir . '/debug.log');
+				error_log($folder_name . ' is not a lando'. PHP_EOL, 3,  DIR . '/debug.log');
 			}
 		} else {
-			error_log( $folder_name . ' is too young to die' . PHP_EOL, 3,  $dir . '/debug.log');
+			error_log( $folder_name . ' is too young to die' . PHP_EOL, 3,  DIR . '/debug.log');
 			echo $folder_name . ' is too young to die' . PHP_EOL;
 		}
 	}
 }
 
 //https://stackoverflow.com/questions/3338123/how-do-i-recursively-delete-a-directory-and-its-entire-contents-files-sub-dir
-function rrmdir($dir) {
-	if (is_dir($dir)) {
-		$objects = scandir($dir);
+function rrmdir( $dir ) {
+	if (is_dir(DIR)) {
+		$objects = scandir(DIR);
 		foreach ($objects as $object) {
 			if ($object != "." && $object != "..") {
-				if (is_dir($dir. DIRECTORY_SEPARATOR .$object) && !is_link($dir."/".$object))
-					rrmdir($dir. DIRECTORY_SEPARATOR .$object);
+				if (is_dir(DIR. DIRECTORY_SEPARATOR .$object) && !is_link(DIR."/".$object))
+					rrmdir(DIR. DIRECTORY_SEPARATOR .$object);
 				else
-					unlink($dir. DIRECTORY_SEPARATOR .$object);
+					unlink(DIR. DIRECTORY_SEPARATOR .$object);
 			}
 		}
-		rmdir($dir);
+		rmdir(DIR);
 	}
 }
 
-function remove_old_images( $days = 30, $dir ){
+function remove_old_images( $days = 30 ){
 	$timestamp = time() - $days * 86400;
 	var_dump( $timestamp );
 	exec( 'docker image prune -af --filter until=' . $timestamp);
-	error_log( 'Docker image prune performed' . PHP_EOL, 3,  $dir . '/debug.log');
+	error_log( 'Docker image prune performed' . PHP_EOL, 3,  DIR . '/debug.log');
 
 }
