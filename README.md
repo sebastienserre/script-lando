@@ -9,4 +9,7 @@ It is also perform lando destroy in all folder older than XX Days
 3. KEEP_ALIVE is an array of folder you do not want to destroy
 
 ## How to use ?
-`php clean-lando.php` command will launch it
+`php clean-lando.php` command will launch it  
+Adding this line in your `crontab -e` (Linux) will run it at each reboot  
+`@reboot /usr/bin/php /path/to/clean-lando.php
+`
