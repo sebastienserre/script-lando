@@ -1,5 +1,6 @@
 <?php
 if ( ! file_exists( __DIR__ . '/conf.php' ) ){
+	echo 'conf file does not exist' . PHP_EOL;
 	exit;
 }
 require __DIR__ . '/conf.php';
