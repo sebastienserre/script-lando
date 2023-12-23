@@ -3,4 +3,7 @@
 define( 'DIR', '');
 
 // name of folder to keep alive
-define( 'KEEP_ALIVE', array() );
+const KEEP_ALIVE = array(
+	'.',
+	'..',
+);
