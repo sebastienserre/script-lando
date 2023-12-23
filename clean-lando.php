@@ -12,7 +12,7 @@ function clean_lando() {
 	$listdir = scandir( DIR );
 
 	error_log( PHP_EOL . date( 'd-m-Y-H-i-s' ) . PHP_EOL, 3, DIR . '/debug.log' );
-	remove_old_images( 30, DIR );
+	remove_old_images( );
 	if ( ! empty( $listdir ) ) {
 
 		foreach ( $listdir as $key => $folder_name ) {
@@ -26,7 +26,7 @@ function clean_lando() {
 			$now         = time();
 			$day         = ( $now - $last_access ) / 86400;
 
-			if ( $day >= 30 ) {
+			if ( $day >= DAYS ) {
 				chdir( $path );
 				if ( file_exists( $path . '/.lando.yml' ) ) {
 
@@ -63,8 +63,8 @@ function rrmdir( $dir ) {
 	}
 }
 
-function remove_old_images( $days = 30 ){
-	$timestamp = time() - $days * 86400;
+function remove_old_images( ){
+	$timestamp = time() - DAYS * 86400;
 	$reclaimed = exec( 'docker image prune -af --filter until=' . $timestamp);
 	error_log( $reclaimed . ' by docker image prune'. PHP_EOL, 3,  DIR . '/debug.log');
 	echo $reclaimed . ' by docker image prune'. PHP_EOL;

@@ -1,4 +1,7 @@
 # Clean your Lando
+## What it does ##
+This script is cleaning your Lando installation from old unused images.  
+It is also perform lando destroy in all folder older than XX Days
 
 ## How to Set Up ?
 1. Rename `conf-sample.php` to `conf.php`

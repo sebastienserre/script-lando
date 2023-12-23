@@ -7,3 +7,5 @@ const KEEP_ALIVE = array(
 	'.',
 	'..',
 );
+
+define( 'DAYS', 30);
