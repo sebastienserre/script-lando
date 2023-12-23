@@ -57,7 +57,6 @@ function rrmdir( $dir ) {
 
 function remove_old_images( $days = 30 ){
 	$timestamp = time() - $days * 86400;
-	exec( 'docker image prune -af --filter until=' . $timestamp);
-	error_log( 'Docker image prune performed' . PHP_EOL, 3,  DIR . '/debug.log');
-
+	$reclaimed = exec( 'docker image prune -af --filter until=' . $timestamp);
+	error_log( $reclaimed . ' by docker image prune'. PHP_EOL, 3,  DIR . '/debug.log');
 }
