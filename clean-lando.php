@@ -1,4 +1,7 @@
 <?php
+if ( ! file_exists( __DIR__ . '/conf.php' ) ){
+	exit;
+}
 require __DIR__ . '/conf.php';
 
 create_debug();
