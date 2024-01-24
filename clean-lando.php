@@ -17,19 +17,17 @@ function clean_lando() {
 
 		foreach ( $listdir as $key => $folder_name ) {
 			$path           = DIR . '/' . $folder_name;
-			$do_not_destroy = array();
 			if ( in_array( $folder_name, KEEP_ALIVE ) ) {
 				continue;
 			}
 			$fileinfo    = stat( $path );
 			$last_access = $fileinfo['atime'];
 			$now         = time();
-			$day         = ( $now - $last_access ) / 86400;
+			$day         = ( $now - $last_access );
 
 			if ( $day >= DAYS ) {
 				chdir( $path );
 				if ( file_exists( $path . '/.lando.yml' ) ) {
-
 					exec( 'lando destroy -y' );
 					rrmdir( $path );
 					echo "destroyed";
