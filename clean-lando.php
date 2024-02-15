@@ -28,7 +28,7 @@ function clean_lando() {
 			if ( $day >= DAYS ) {
 				chdir( $path );
 				if ( file_exists( $path . '/.lando.yml' ) ) {
-					exec( 'lando destroy -y' );
+					exec( 'lando destroy --y' );
 					rrmdir( $path );
 					echo "destroyed";
 					error_log( $folder_name . ' has been destroyed' . PHP_EOL, 3, DIR . '/debug.log' );
