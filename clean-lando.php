@@ -12,7 +12,7 @@ function clean_lando() {
 	$listdir = scandir( DIR );
 
 	error_log( PHP_EOL . date( 'd-m-Y-H-i-s' ) . PHP_EOL, 3, DIR . '/debug.log' );
-	remove_old_images( );
+	//remove_old_images( );
 	if ( ! empty( $listdir ) ) {
 
 		foreach ( $listdir as $key => $folder_name ) {
@@ -21,9 +21,11 @@ function clean_lando() {
 				continue;
 			}
 			$fileinfo    = stat( $path );
-			$last_access = $fileinfo['atime'];
+			$last_access = $fileinfo['mtime'];
 			$now         = time();
 			$day         = ( $now - $last_access );
+			//var_dump( $fileinfo);
+			//error_log( $folder_name . ' file:' . $fileinfo . PHP_EOL, 3, DIR . '/debug.log' );
 
 			if ( $day >= DAYS ) {
 				chdir( $path );
